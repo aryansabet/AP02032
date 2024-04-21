@@ -40,22 +40,23 @@ jobs:
       - name: Path-Lister to js arr
         id: p2
         run: |
-             echo "${{ steps.pl.outputs.paths }}" | awk '{gsub(/\.\//, "", $0); print $0}' | sed 's/ /","/g' | sed 's/^/["/' | sed 's/$/"]/'
+             PATHS=$(echo "${{ steps.pl.outputs.paths }}" | awk '{gsub(/\.\//, "", $0); print $0}' | sed 's/ /","/g' | sed 's/^/["/' | sed 's/$/"]/')
+             echo ::set-output name=paths::${PATHS}
 
-      - name: Path-lister Output results
-        run: |
-          echo "Found ${{ steps.pl.outputs.path_count }} file(s) with this extension:"
-          for i in ${{ steps.pl.outputs.paths }}; do
-          echo $i
-          done
-      - name: Generate Matrix
-        id: generate-matrix
-        run: |
+      # - name: Path-lister Output results
+      #   run: |
+      #     echo "Found ${{ steps.pl.outputs.path_count }} file(s) with this extension:"
+      #     for i in ${{ steps.pl.outputs.paths }}; do
+      #     echo $i
+      #     done
+      # - name: Generate Matrix
+      #   id: generate-matrix
+      #   run: |
 
-          PATHS='${{ toJSON(steps.p2.outputs.stdout) }}'
-          echo ::set-output name=paths::${PATHS}
-          echo '${{ toJSON(steps.p2.outputs.stdout) }}'
-          # echo "{name}={value}" >> $GITHUB_OUTPUT
+      #     PATHS='${{ toJSON(steps.p2.outputs.paths) }}'
+      #     echo ::set-output name=paths::${PATHS}
+      #     echo '${{ toJSON(steps.p2.outputs.paths) }}'
+      #     # echo "{name}={value}" >> $GITHUB_OUTPUT
 
   my_echo:
     runs-on: ubuntu-latest
