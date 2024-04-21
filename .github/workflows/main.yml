@@ -22,16 +22,16 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Fetch action
-        id: p2
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |-
-            include:
-              - '**/*.csproj'
-          list-files: csv
+      # - name: Change File action
+      #   id: p2
+      #   uses: dorny/paths-filter@v3
+      #   with:
+      #     filters: |-
+      #       include:
+      #         - '**/*.csproj'
+      #     list-files: csv
 
-      - name: Path action
+      - name: Path-lister action
         id: pl
         uses: Rishabh510/Path-lister-action@master
         with:
@@ -48,10 +48,12 @@ jobs:
       - name: Generate Matrix
         id: generate-matrix
         run: |
-          SERVICES='${{ toJSON(github.event.client_payload.services) }}'
-          echo ::set-output name=services::${SERVICES}
-          VERSIONS='${{ toJSON(github.event.client_payload.versions) }}'
-          echo ::set-output name=versions::${VERSIONS}
+
+          PATHS='${{ toJSON(steps.pl.outputs.paths) }}'
+          echo ::set-output name=services::${PATHS}
+
+          # echo "{name}={value}" >> $GITHUB_OUTPUT
+
   my_echo:
     runs-on: ubuntu-latest
     needs:
@@ -67,10 +69,9 @@ jobs:
         - say_hello
       strategy:
         matrix:
-          service: ${{ fromJSON(needs.say_hello.outputs.services) }}
-          version: ${{ fromJSON(needs.say_hello.outputs.versions) }}
+          projPath: ${{ fromJSON(needs.say_hello.outputs.paths) }}
       steps:
-        - name: Matrix => (${{ matrix.service }} ${{ matrix.version}})
+        - name: Matrix => (${{ matrix.PATHS }}   # ${{ matrix.version}})
           run: |
             echo ${{ matrix.service }}
             echo ${{ matrix.version }}
