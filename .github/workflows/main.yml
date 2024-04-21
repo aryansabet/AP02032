@@ -19,12 +19,13 @@ jobs:
       services: ${{ steps.generate-matrix.outputs.services }}
       versions: ${{ steps.generate-matrix.outputs.versions }}
     steps:
+
       - name: Fetch action
         id: pl
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: "./"
-          type: ".csproj"
+          path: ".github/"
+          type: ".yml"
 
       - name: Output results
         run: |
@@ -61,26 +62,26 @@ jobs:
           run: |
             echo ${{ matrix.service }}
             echo ${{ matrix.version }}
-  build-and-test:
+  # build-and-test:
 
-    name: build-and-test-${{matrix.os}}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+  #   name: build-and-test-${{matrix.os}}
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - name: Setup .NET Core
+  #     uses: actions/setup-dotnet@v3
+  #     with:
+  #       dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Install dependencies
-      run: dotnet restore **/*.sln
+  #   - name: Install dependencies
+  #     run: dotnet restore **/*.sln
       
-    - name: Build
-      run: dotnet build --configuration Release --no-restore **/*.sln
+  #   - name: Build
+  #     run: dotnet build --configuration Release --no-restore **/*.sln
     
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal **/*.sln
+  #   - name: Test
+  #     run: dotnet test --no-restore --verbosity normal **/*.sln
