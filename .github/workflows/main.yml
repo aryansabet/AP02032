@@ -16,8 +16,8 @@ jobs:
   say_hello:
     runs-on: ubuntu-latest
     outputs:
-      services: ${{ steps.generate-matrix.outputs.services }}
-      versions: ${{ steps.generate-matrix.outputs.versions }}
+      paths: ${{ steps.generate-matrix.outputs.paths }}
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
         run: |
 
           PATHS='${{ toJSON(steps.pl.outputs.paths) }}'
-          echo ::set-output name=services::${PATHS}
+          echo ::set-output name=path::${PATHS}
 
           # echo "{name}={value}" >> $GITHUB_OUTPUT
 
