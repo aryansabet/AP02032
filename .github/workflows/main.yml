@@ -22,10 +22,12 @@ jobs:
 
       - name: Fetch action
         id: pl
-        uses: Rishabh510/Path-lister-action@master
+        uses: dorny/paths-filter@v3
         with:
-          path: ".github/"
-          type: ".yml"
+          filters: |-
+            include:
+              - '**/*.csproj'
+          list-files: csv
 
       - name: Output results
         run: |
