@@ -12,12 +12,26 @@ env:
   DOTNET_VERSION: '8.0.101' # The .NET SDK version to use
 
 jobs:
+
   say_hello:
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.generate-matrix.outputs.services }}
       versions: ${{ steps.generate-matrix.outputs.versions }}
     steps:
+      - name: Fetch action
+        id: pl
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: ".github/"
+          type: ".yml"
+
+      - name: Output results
+        run: |
+          echo "Found ${{ steps.pl.outputs.path_count }} file(s) with this extension:"
+          for i in ${{ steps.pl.outputs.paths }}; do
+          echo $i
+          done
       - name: Generate Matrix
         id: generate-matrix
         run: |
