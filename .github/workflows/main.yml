@@ -23,8 +23,8 @@ jobs:
         id: pl
         uses: Rishabh510/Path-lister-action@master
         with:
-          path: ".github/"
-          type: ".yml"
+          path: "./"
+          type: ".csproj"
 
       - name: Output results
         run: |
