@@ -71,10 +71,10 @@ jobs:
         matrix:
           projPath: ${{ fromJSON(needs.say_hello.outputs.paths) }}
       steps:
-        - name: Matrix => (${{ matrix.PATHS }}   # ${{ matrix.version}})
+        - name: Matrix => (${{ matrix.path }}   # ${{ matrix.version}})
           run: |
-            echo ${{ matrix.service }}
-            echo ${{ matrix.version }}
+            echo ${{ matrix.path }}
+
   # build-and-test:
 
   #   name: build-and-test-${{matrix.os}}
