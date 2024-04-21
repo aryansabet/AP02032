@@ -40,8 +40,7 @@ jobs:
       - name: Path-Lister to js arr
         id: p2
         run: |
-          echo "${{ steps.pl.outputs.paths }}" | shlex | awk -v RS=" " '{gsub(/^\s+|\s+$/, "", $0); print "\"" $0 "\""}'  | paste -sd "," - | tr -d '\n' ; echo ']'
-
+             echo "${{ steps.pl.outputs.paths }}" | awk '{gsub(/\.\//, "", $0); print $0}' | sed 's/ /","/g' | sed 's/^/["/' | sed 's/$/"]/'
 
       - name: Path-lister Output results
         run: |
