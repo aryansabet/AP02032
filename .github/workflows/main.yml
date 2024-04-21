@@ -50,7 +50,7 @@ jobs:
         run: |
 
           PATHS='${{ toJSON(steps.pl.outputs.paths) }}'
-          echo ::set-output name=path::${PATHS}
+          echo ::set-output name=paths::${PATHS}
 
           # echo "{name}={value}" >> $GITHUB_OUTPUT
 
