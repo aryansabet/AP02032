@@ -19,15 +19,25 @@ jobs:
       services: ${{ steps.generate-matrix.outputs.services }}
       versions: ${{ steps.generate-matrix.outputs.versions }}
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
       - name: Fetch action
-        id: pl
+        id: p2
         uses: dorny/paths-filter@v3
         with:
           filters: |-
             include:
               - '**/*.csproj'
           list-files: csv
+
+      - name: Path action
+        id: pl
+        uses: Rishabh510/Path-lister-action@master
+        with:
+          path: ".github/"
+          type: ".yml"
+
 
       - name: Output results
         run: |
