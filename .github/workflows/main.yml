@@ -37,6 +37,10 @@ jobs:
         with:
           path: "./"
           type: ".csproj"
+      - name: Path-Lister to js arr
+        id: p2
+        run: |
+          echo "${{ steps.pl.outputs.paths }}" | tr '/' ' ' | cut -d' ' -f1 | awk -F'.' '{print $NF}'
 
 
       - name: Path-lister Output results
@@ -49,9 +53,9 @@ jobs:
         id: generate-matrix
         run: |
 
-          PATHS='${{ toJSON(steps.pl.outputs.paths) }}'
+          PATHS='${{ toJSON(steps.p2.outputs.stdout) }}'
           echo ::set-output name=paths::${PATHS}
-
+          echo '${{ toJSON(steps.p2.outputs.stdout) }}'
           # echo "{name}={value}" >> $GITHUB_OUTPUT
 
   my_echo:
